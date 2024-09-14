@@ -4,8 +4,10 @@ require '../../includes/init.php';
 require_once '../../vendor/autoload.php';
 
 // Initialize Google Client
-$clientID = '727218418612-j0f7i2p5igtlieq9hj1b498ig772u3ru.apps.googleusercontent.com';
-$clientSecret = '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';
+// $clientID = '727218418612-j0f7i2p5igtlieq9hj1b498ig772u3ru.apps.googleusercontent.com';
+// $clientSecret = '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';
+$clientID = 'GOOGLE_CLIENT_ID';
+$clientSecret = 'GOOGLE_CLIENT_SECRET';
 $redirectUri = 'http://localhost/hotel/admin/pages/authentication/login';
 
 // Create Client Request to access Google API
