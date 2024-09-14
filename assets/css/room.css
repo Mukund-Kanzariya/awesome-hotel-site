@@ -1,0 +1,267 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+}
+
+.hero-section {
+    height: 500px;
+    background: url('../img/king2.jpg') center center/cover no-repeat;
+    position: relative;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.hero-section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.hero-content {
+    z-index: 1;
+}
+
+.hero-content h1 {
+    font-size: 3.5rem;
+    margin-bottom: 10px;
+}
+
+.hero-content p {
+    font-size: 1.8rem;
+}
+
+
+
+/* Parallax and Split View Styles */
+.parallax-split {
+    display: flex;
+    height: 400px; /* Maintain original height */
+    overflow: hidden;
+    position: relative;
+    margin: 40px 0; /* Add space between sections */
+}
+
+.parallax-image {
+    flex: 1;
+    background-size: cover; /* Ensure the image covers the entire container */
+    background-position: center;
+    background-attachment: fixed; /* Enable the parallax effect */
+    background-repeat: no-repeat; /* Prevent the image from repeating */
+    width: 100%;
+    height: 100%;
+}
+
+.parallax-text {
+    flex: 1;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #191970; /* Make background color slightly transparent */
+    color: white;
+    opacity: 0; /* Start with text invisible */
+    transform: translateY(30px); /* Start with text slightly below */
+    transition: all 0.6s ease-out; /* Smooth transition for the effects */
+}
+
+.parallax-text h2 {
+    color: #FFD700;
+    font-weight: bold;
+}
+
+.parallax-split.reverse .parallax-text {
+    order: -1;
+}
+
+.parallax-button {
+    color: #FFD700;
+    font-size: 1.2rem;
+    transition: background-color 0.3s;
+}
+
+.parallax-button:hover {
+    background-color: #191970;
+}
+
+.parallax-split.in-view .parallax-text {
+    opacity: 1; /* Fade in text */
+    transform: translateY(0); /* Slide text up into position */
+}
+
+
+
+
+/* Full-Width Parallax Section */
+.parallax-full {
+    margin-top: 50px;
+    position: relative;
+    height: 500px;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    margin-bottom: 40px;
+}
+
+.parallax-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+}
+
+/* Flip Card Styles */
+.flip-card {
+    background-color: transparent;
+    perspective: 1000px;
+    margin-bottom: 40px;
+}
+
+.flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    text-align: center;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+    cursor: pointer;
+}
+
+.flip-card:hover .flip-card-inner {
+    transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+    position: absolute;
+    width: 100%;
+    backface-visibility: hidden;
+}
+
+.flip-card-front {
+    background-color: #bbb;
+    color: black;
+}
+
+.flip-card-back {
+    background-color: #2980b9;
+    color: white;
+    transform: rotateY(180deg);
+    padding: 20px;
+}
+
+/* Zoom-In Card Styles */
+.zoom-card {
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out;
+}
+
+.zoom-card:hover {
+    transform: scale(1.05);
+}
+
+.zoom-card img {
+    width: 100%;
+    transition: transform 0.5s ease;
+}
+
+.zoom-card:hover img {
+    transform: scale(1.2);
+}
+
+/* Slide-Up Card Styles */
+.slide-card {
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out;
+}
+
+.slide-card:hover {
+    transform: translateY(-10px);
+}
+
+.slide-card img {
+    width: 100%;
+    transition: transform 0.5s ease;
+}
+
+.slide-card:hover img {
+    transform: translateY(-20%);
+}
+
+/* General Styles */
+.rooms-container {
+    padding: 80px 0;
+}
+
+.room-card {
+    margin-bottom: 40px;
+    overflow: hidden;
+    border: none;
+    background-color: #fff;
+    transition: all 0.3s ease-in-out;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.room-info {
+    padding: 20px;
+    background-color: #f9f9f9;
+}
+
+.room-info h4 {
+    margin-bottom: 15px;
+    font-size: 1.8rem;
+    transition: color 0.3s;
+}
+
+.room-info p {
+    margin-bottom: 15px;
+}
+
+.room-info .btn-room {
+    background-color: #007bff;
+    color: white;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.room-info .btn-room:hover {
+    background-color: #0056b3;
+}
+
+.room-info h4:hover {
+    color: #0056b3;
+}
+
+.room-info .price {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.amenities {
+    margin-top: 20px;
+}
+
+.amenities span {
+    display: inline-block;
+    margin-right: 15px;
+    padding: 7px 12px;
+    background-color: #e0e0e0;
+    border-radius: 5px;
+}
+
+.room-description {
+    margin-bottom: 20px;
+    color: #555;
+}
