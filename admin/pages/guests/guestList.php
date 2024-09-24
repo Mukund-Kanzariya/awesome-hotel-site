@@ -1,39 +1,20 @@
 <?php
 
-// session_start();
+session_start();
 
-// if(!isset($_SESSION['userId'])){
-//     header("Location:../authentication/login.php");
-// }
-
+if(!isset($_SESSION['userId'])){
+    header("Location:../authentication/login");
+}
 
 require '../../includes/init.php';
 include pathOf("includes/header.php");
 include pathOf("includes/navbar.php");
 
-// $query = "SELECT Name,MobileNumber,Email,Address,City,State,Username,Password,role.Rolename as user.RoleId FROM `user` INNER JOIN `role` ON user.RoleId = role.Id ";
-$query = " SELECT 
-    user.Id,
-    user.Name, 
-    user.MobileNumber, 
-    user.Email, 
-    user.Address, 
-    user.City, 
-    user.State, 
-    user.Username, 
-    user.Password, 
-    user.Image,
-    role.Rolename AS RoleId
-FROM 
-    `user` 
-INNER JOIN 
-    `role` 
-ON 
-    user.RoleId = role.Id;
-";
-
-$result=mysqli_query($conn,$query);
+$query="SELECT * FROM `guests`";
+$rows=select($query);
 $index=1;
+
+
 
 ?>
 <!-- [ Main Content ] start -->
@@ -68,7 +49,8 @@ $index=1;
                 <div class="card border-0 table-card user-profile-list">
                     <div class="card-body">
                         <div class="text-end p-sm-4 pb-sm-2">
-                            <a href="<?= urlOF('pages/guest/addGuest') ?>" class="btn custom"> <i class="ti ti-plus f-18"></i>Add
+                            <a href="<?= urlOF('pages/guests/addGuest') ?>" class="btn custom"> <i
+                                    class="ti ti-plus f-18"></i>Add
                                 Guest
                             </a>
                         </div>
@@ -79,22 +61,25 @@ $index=1;
                                         <th>Sr.No</th>
                                         <th>Image</th>
                                         <th>Name</th>
-                                        <th>Alloted Room No.</th>
                                         <th>mobileno.</th>
                                         <th>E-mail</th>
                                         <th>Address</th>
                                         <th>Check-In-Date</th>
                                         <th>Check-Out-Date</th>
+                                        <th>Alloted Room No.</th>
+                                        <th>TotalAmount</th>
+                                        <th>Status</th>
+                                        <th>operation</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php while($row=mysqli_fetch_assoc($result)) {?>
+                                    <?php foreach($rows as $row) {?>
                                     <tr>
                                         <th><?= $index++ ?></th>
                                         <td>
                                             <div class="text-center">
                                                 <div class="col-auto pe-0">
-                                                    <img src="<?=  "../../assets/images/user/" . $row["Image"]; ?>"
+                                                    <img src="<?=  "../../assets/images/guests/" . $row["Image"]; ?>"
                                                         alt="user-image" class="wid-40 rounded" />
                                                 </div>
                                                 <!-- <div class="col">
@@ -102,20 +87,42 @@ $index=1;
                                                 </div> -->
                                             </div>
                                         </td>
+                                        <?php
+                                        $id1 = $row['Id'];
+                                        $query1 = "SELECT * FROM `guestrooms` WHERE GuestId = ?";
+                                        $param1 = [$id1];
+                                        $row1 = select($query1, $param1);
+                                         ?>
                                         <td><?= $row['Name'] ?></td>
-                                        <td><?= $row['RoleId'] ?></td>
-                                        <td><?= $row['MobileNumber'] ?></td>
+                                        <td><?= $row['Mobile'] ?></td>
                                         <td><?= $row['Email'] ?></td>
                                         <td><?= $row['Address'] ?></td>
-                                        <td><?= $row['City'] ?></td>
-                                        <td><?= $row['State'] ?></td>
+                                        <td><?= $row['CheckInDate'] ?></td>
+                                        <td><?= $row['CheckOutDate'] ?></td>
+                                        <td>
+
+                                            <?php if (!empty($row1)) { // Check if there are any rooms associated with the guest ?>
+                                            <?php foreach ($row1 as $room) { ?>
+                                            <p class="mb-0 text-primary"><?= $room['RoomNo'] ?></p>
+                                            <?php } ?>
+                                            <?php } else { ?>
+                                            <p class="mb-0 text-muted">No rooms assigned to this guest.</p>
+                                            <?php } ?>
+                                        </td>
+
+                                        <td><?= $row['TotalBill'] ?></td>
+                                        <td><?= $row['Status'] ?></td>
+                                        <td> <a href="checkOut?guestId=<?= $row['Id'] ?>" class="btn custom">CheckOut
+                                            </a></td>
                                         <td>
                                             <div class="overlay-edit">
                                                 <ul class="list-inline mb-0">
-                                                    <li class="list-inline-item m-0"><a href="update ?updateId=<?= $row['Id'] ?>"
+                                                    <li class="list-inline-item m-0"><a
+                                                            href="update ?updateId=<?= $row['Id'] ?>"
                                                             class="avtar avtar-s btn custom"><i
                                                                 class="ti ti-pencil f-18"></i></a></li>
-                                                    <li class="list-inline-item m-0"><a href="../../api/user/delete?id=<?= $row['Id'] ?>"
+                                                    <li class="list-inline-item m-0"><a
+                                                            href="../../api/guests/delete?deleteId=<?= $row['Id'] ?>"
                                                             class="avtar avtar-s btn bg-white btn-link-danger"><i
                                                                 class="ti ti-trash f-18"></i></a></li>
                                                 </ul>

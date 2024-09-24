@@ -1,15 +1,14 @@
 <?php
 
+session_start();
 
-// if(!isset($_SESSION['userId'])){
-//     header("Location:../authentication/login.php");
-// }
-
+if(!isset($_SESSION['userId'])){
+    header("Location:../authentication/login");
+}
 
 require '../../includes/init.php';
 include pathOf("includes/header.php");
 include pathOf("includes/navbar.php");
-
 
 $query = "SELECT * FROM `roles`";
 $rows = select($query);

@@ -1,38 +1,19 @@
 <?php
 
-// session_start();
+session_start();
 
-// if(!isset($_SESSION['userId'])){
-//     header("Location:../authentication/login.php");
-// }
-
+if(!isset($_SESSION['userId'])){
+    header("Location:../authentication/login");
+}
 
 require '../../includes/init.php';
 include pathOf("includes/header.php");
 include pathOf("includes/navbar.php");
 
-// $query = "SELECT Name,MobileNumber,Email,Address,City,State,Username,Password,role.Rolename as user.RoleId FROM `user` INNER JOIN `role` ON user.RoleId = role.Id ";
-$query = " SELECT 
-    user.Id,
-    user.Name, 
-    user.MobileNumber, 
-    user.Email, 
-    user.Address, 
-    user.City, 
-    user.State, 
-    user.Username, 
-    user.Password, 
-    user.Image,
-    role.Rolename AS RoleId
-FROM 
-    `user` 
-INNER JOIN 
-    `role` 
-ON 
-    user.RoleId = role.Id;
-";
+$query="SELECT * FROM expenses";
 
-$result=mysqli_query($conn,$query);
+$rows=select($query);
+
 $index=1;
 
 ?>
@@ -64,7 +45,7 @@ $index=1;
         <!-- [ Main Content ] start -->
         <div class="row">
             <!-- [ sample-page ] start -->
-            <div class="col-sm-12">
+            <div class="col-sm-6">
                 <div class="card border-0 table-card user-profile-list">
                     <div class="card-body">
                         <div class="text-end p-sm-4 pb-sm-2">
@@ -82,29 +63,18 @@ $index=1;
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php while($row=mysqli_fetch_assoc($result)) {?>
+                                    <?php foreach($rows as $row) {?>
                                     <tr>
-                                        <th><?= $index++ ?></th>
-                                        <td>
-                                            <div class="text-center">
-                                                <div class="col-auto pe-0">
-                                                    <img src="<?=  "../../assets/images/user/" . $row["Image"]; ?>"
-                                                        alt="user-image" class="wid-40 rounded" />
-                                                </div>
-                                                <!-- <div class="col">
-                                                    <h6 class="mb-1">Wheat</h6>
-                                                </div> -->
-                                            </div>
-                                        </td>
+                                        <td><?= $index++ ?></td>
                                         <td><?= $row['Name'] ?></td>
-                                        <td><?= $row['Ammount'] ?></td>
+                                        <td><?= $row['Amount'] ?></td>
                                         <td>
                                             <div class="overlay-edit">
                                                 <ul class="list-inline mb-0">
                                                     <li class="list-inline-item m-0"><a href="update ?updateId=<?= $row['Id'] ?>"
                                                             class="avtar avtar-s btn custom"><i
                                                                 class="ti ti-pencil f-18"></i></a></li>
-                                                    <li class="list-inline-item m-0"><a href="../../api/user/delete?id=<?= $row['Id'] ?>"
+                                                    <li class="list-inline-item m-0"><a href="../../api/expenses/delete?deleteId=<?= $row['Id'] ?>"
                                                             class="avtar avtar-s btn bg-white btn-link-danger"><i
                                                                 class="ti ti-trash f-18"></i></a></li>
                                                 </ul>

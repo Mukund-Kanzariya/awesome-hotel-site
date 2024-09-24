@@ -2,14 +2,14 @@
 
 session_start();
 
-// if(!isset($_SESSION['userId'])){
-//     header("Location:../authentication/login.php");
-// }
-
+if(!isset($_SESSION['userId'])){
+    header("Location:../authentication/login");
+}
 
 require '../../includes/init.php';
 include pathOf("includes/header.php");
 include pathOf("includes/navbar.php");
+
 
 ?>
 
@@ -42,7 +42,7 @@ include pathOf("includes/navbar.php");
         <div class="row">
             <!-- [ sample-page ] start -->
             <div class="col-xl-6">
-                <form action="../../api/role/insert.php" method="post">
+                <form>
 
                     <div class="card">
                         <div class="card-header">
@@ -51,18 +51,20 @@ include pathOf("includes/navbar.php");
                         <div class="card-body">
                             <div class="mb-3">
                                 <label class="form-label">Expense Name</label>
-                                <input type="text" class="form-control" placeholder="Enter Expense Name" name="name" autofocus/>
+                                <input type="text" class="form-control" placeholder="Enter Expense Name" id="name"
+                                    autofocus />
                             </div>
                             <div class="mb-3">
-                                <label class="form-label">Ammount</label>
-                                <input type="text" class="form-control" placeholder="Enter Ammount" name="ammount" autofocus/>
+                                <label class="form-label">Expense Amount</label>
+                                <input type="text" class="form-control" placeholder="Enter Expense Amount" id="amount"
+                                    autofocus />
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="card">
                         <div class="card-body text-end btn-page">
-                            <button class="btn custom mb-0">Add Expense</button>
+                            <button class="btn custom mb-0" onclick="sendData()">Add Expense</button>
                         </div>
                     </div>
                 </form>
@@ -78,6 +80,33 @@ include pathOf("includes/navbar.php");
 
 include pathOf("includes/footer.php");
 include pathOf("includes/script.php");
+
+?>
+
+<script>
+function sendData() {
+    $.ajax({
+        url: '../../api/expenses/insert',
+        method: 'POST',
+        data: {
+            name: $('#name').val(),
+            amount: $('#amount').val()
+        },
+        success: function(response, status, xhr) {
+            if (xhr.status == 200) {
+                alert("Expense added successfully!");
+                window.location.href = "../../pages/expenses/expenseList";
+            } else {
+                alert("Expense not added. Please try again.");
+                window.location.href = "addExpense";
+            }
+        }
+    });
+}
+</script>
+
+<?php
+
 include pathOf("includes/pageEnd.php");
 
 ?>

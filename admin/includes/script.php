@@ -40,3 +40,25 @@
     <script>
       preset_change('preset-1');
     </script>
+
+    <!-- select rooms  from selected roomtype -->
+
+    <script>
+    document.getElementById('itemSelect').addEventListener('change', function() {
+        var selectedValue = this.value;
+        document.getElementById('selectedValue').value = selectedValue;
+
+        // Send the selected value to the server using AJAX
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.send('item_id=' + encodeURIComponent(selectedValue));
+
+        // Optional: handle response from the server
+        xhr.onload = function() {
+            if (xhr.status >= 200 && xhr.status < 300) {
+                console.log('Server response:', xhr.responseText);
+            }
+        };
+    });
+</script>

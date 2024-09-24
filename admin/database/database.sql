@@ -23,6 +23,7 @@ CREATE TABLE
         `Name` VARCHAR(200) NOT NULL,
         `Mobile` INT NOT NULL,
         `Email` VARCHAR(200) NOT NULL,
+        `Image` VARCHAR(200) NOT NULL,
         `Address` VARCHAR(500) NOT NULL,
         `City` VARCHAR(200) NOT NULL,
         `State` VARCHAR(200) NOT NULL,
@@ -51,36 +52,78 @@ CREATE TABLE
 CREATE TABLE
     `RoomTypes` (
         `Id` INT PRIMARY KEY AUTO_INCREMENT,
-        `Name` VARCHAR(200) NOT NULL
-    );
-
-CREATE TABLE
-    `Rooms` (
-        `Id` INT PRIMARY KEY AUTO_INCREMENT,
-        `RoomTypeId` INT NOT NULL,
-        `RoomNumber` INT NOT NULL,
-        `RoomDescription` VARCHAR(200) NOT NULL,
-        `Price` INT NOT NULL,
-        `Image` VARCHAR(200) NOT NULL,
-        FOREIGN KEY (`RoomTypeId`) REFERENCES `RoomTypes` (`Id`)
-    );
-
-CREATE TABLE
-    `Guests` (
-        `Id` INT PRIMARY KEY AUTO_INCREMENT,
-        `AllotedRoomId` INT NOT NULL,
         `Name` VARCHAR(200) NOT NULL,
-        `MobileNo` INT NOT NULL,
-        `Email` VARCHAR(200) NOT NULL,
-        `Address` VARCHAR(200) NOT NULL,
-        `City` VARCHAR(200) NOT NULL,
-        `State` VARCHAR(200) NOT NULL,
-        `CheckInTime` DATETIME NOT NULL,
-        `CheckOutTime` DATETIME NOT NULL,
-        `TotalPrice` INT NOT NULL,
-        `Image` VARCHAR(200) NOT NULL,
-        FOREIGN KEY (`AllotedRoomId`) REFERENCES `Rooms` (`Id`)
+        `Price` INT NOT NULL,      
+
     );
+
+-- CREATE TABLE
+--     `Rooms` (
+--         `Id` INT PRIMARY KEY AUTO_INCREMENT,
+--         `RoomTypeId` INT NOT NULL,
+--         `RoomNumber` INT NOT NULL,
+--         `Description` VARCHAR(200) NOT NULL,
+--         `Capacity` INT NOT NULL,
+--         `Price` INT NOT NULL,
+--         FOREIGN KEY (`RoomTypeId`) REFERENCES `RoomTypes` (`Id`)
+--     );
+
+CREATE TABLE rooms (
+    `Id` INT AUTO_INCREMENT ,   
+    `RoomTypeId`INT NOT NULL,           
+    `RoomNumber` INT NOT NULL ,        
+    `description` VARCHAR(255) NOT NULL , 
+    `Capacity` INT NOT NULL,                       
+    `IsAvailable` BOOLEAN DEFAULT TRUE,        
+    `CreatedAt` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  
+    `UpdatedAt` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (Id,RoomNumber),
+    FOREIGN KEY (`RoomTypeId`) REFERENCES `RoomTypes` (`Id`)  
+);
+
+
+-- CREATE TABLE
+--     `Guests` (
+--         `Id` INT PRIMARY KEY AUTO_INCREMENT,
+--         `Name` VARCHAR(200) NOT NULL,
+--         `MobileNo` INT NOT NULL,
+--         `Email` VARCHAR(200) NOT NULL,
+--         `Address` VARCHAR(200) NOT NULL,
+--         `City` VARCHAR(200) NOT NULL,
+--         `State` VARCHAR(200) NOT NULL,
+--         `CheckInTime` DATETIME NOT NULL,
+--         `CheckOutTime` DATETIME NOT NULL,
+--         `AllotedRoomId` INT NOT NULL,
+--         `TotalPrice` INT NOT NULL,
+--         `Image` VARCHAR(200) NOT NULL,
+--         FOREIGN KEY (`AllotedRoomId`) REFERENCES `Rooms` (`Id`)
+--     );
+
+CREATE TABLE guests (
+    `Id` INT AUTO_INCREMENT PRIMARY KEY,
+    `Name` VARCHAR(100) NOT NULL,
+    `Mobile` VARCHAR(15) NOT NULL,
+    `Email` VARCHAR(255) NOT NULL UNIQUE,
+    `Address` TEXT NULL,
+    `Image` VARCHAR(200) NOT NULL,
+    `CheckInDate` DATE NOT NULL,
+    `CheckOutDate` DATE NOT NULL,
+    `TotalBill` INT NOT NULL,
+    `Status` ENUM('active', 'checked out') NOT NULL,
+    `CreatedAt` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `UpdatedAt` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+
+CREATE TABLE `guestrooms` (
+    `Id` INT AUTO_INCREMENT PRIMARY KEY,
+    `GuestId` INT NOT NULL,
+    `RoomNo` INT NOT NULL,
+    FOREIGN KEY (`GuestId`) REFERENCES `guests`(`Id`),
+    FOREIGN KEY (`RoomNo`) REFERENCES `rooms`(`RoomNumber`)
+);
+
+
 
 CREATE TABLE
     `Expenses` (

@@ -1,29 +1,29 @@
 <?php   
 
-// session_start();
+session_start();
 
-// if(!isset($_SESSION['userId'])){
-//     header("Location:../authentication/login.php");
-// }
-
+if(!isset($_SESSION['userId'])){
+    header("Location:../authentication/login");
+}
 
 require '../../includes/init.php';
 include pathOf('includes/header.php');
 include pathOf('includes/navbar.php');
 
 $query = "SELECT 
-    product.Id,
-    product.Name,
-    product.Description,
-    product.Price,
-    product.Image,
-    category.CategoryName as CategoryId
-FROM product
-INNER JOIN category ON product.CategoryId = category.Id";
+    rooms.Id,
+    rooms.RoomNumber,
+    rooms.Description,
+    rooms.Capacity,
+    rooms.IsAvailable,
+    roomTypes.Name as RoomTypeId
+FROM rooms
+INNER JOIN roomTypes ON rooms.RoomTypeId = roomtypes.Id";
 
-$result=mysqli_query($conn,$query);
+$rows=select($query);
 
 $index=1;
+
 ?>
 
 
@@ -69,45 +69,34 @@ $index=1;
                                 <thead>
                                     <tr>
                                         <th class="text-center">sr.no</th>
-                                        <th class="text-center">Room Image</th>
                                         <th class="text-center">Room Type</th>
-                                        <th class="text-center">Room No.</th>
+                                        <th class="text-center">Room.no</th>
                                         <th class="text-center">Description</th>
-                                        <th class="text-center">Price</th>
-                                        <!-- <th class="text-end">Price</th> -->
+                                        <th class="text-center">Capacity</th>
+                                        <th class="text-center">Is Available</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php while($row=mysqli_fetch_assoc($result)) { ?>
+                                    <?php foreach($rows as $row) { ?>
                                     <tr>
                                         <td class="text-center"><?= $index++ ?></td>
-                                        <td>
-                                            <div class="text-center">
-                                                <div class="col-auto pe-0">
-                                                    <img src="<?=  "../../assets/images/product/" . $row["Image"]; ?>"
-                                                        alt="user-image" class="wid-40 rounded" />
-                                                </div>
-                                                <!-- <div class="col">
-                                                    <h6 class="mb-1">Wheat</h6>
-                                                </div> -->
-                                            </div>
-                                        </td>
-                                        <td class="text-center"><?= $row['Name'] ?></td>
-                                        <td class="text-center"><?= $row['CategoryId'] ?></td>
+                                        <td class="text-center"><?= $row['RoomTypeId'] ?></td>
+                                        <td class="text-center"><?= $row['RoomNumber'] ?></td>
                                         <td class="text-center"><?= $row['Description'] ?></td>
-                                        <td class="text-center"><?= $row['Price'] ?></td>
+                                        <td class="text-center"><?= $row['Capacity'] ?></td>
+                                        <td class="text-center">
+                                            <?php 
+                                                  if($row['IsAvailable'] == 1) { 
+                                                      echo "Available"; 
+                                                  } else { 
+                                                      echo "Booked"; 
+                                                  } 
+                                                  ?>
+                                        </td>
                                         <td class="text-center">
                                             <div class="prod-action-links">
                                                 <ul class="list-inline me-auto mb-0">
-                                                    <!-- <li class="list-inline-item align-bottom" data-bs-toggle="tooltip"
-                                                        title="View">
-                                                        <a href="#"
-                                                            class="avtar avtar-xs btn-link-secondary btn-pc-default"
-                                                            data-bs-toggle="offcanvas"
-                                                            data-bs-target="#productOffcanvas">
-                                                            <i class="ti ti-eye f-18"></i>
-                                                        </a>
-                                                    </li> -->
+
                                                     <li class="list-inline-item align-bottom" data-bs-toggle="tooltip"
                                                         title="Edit">
                                                         <a href="update?updateId=<?= $row['Id'] ?>"
@@ -117,7 +106,7 @@ $index=1;
                                                     </li>
                                                     <li class="list-inline-item align-bottom" data-bs-toggle="tooltip"
                                                         title="Delete">
-                                                        <a href="../../api/product/delete?deleteId=<?= $row['Id'] ?>"
+                                                        <a href="../../api/rooms/delete?deleteId=<?= $row['Id'] ?>"
                                                             class="avtar avtar-xs btn-link-danger btn-pc-default">
                                                             <i class="ti ti-trash f-18"></i>
                                                         </a>

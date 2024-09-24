@@ -1,18 +1,17 @@
 <?php
 
-// session_start();
+session_start();
 
-// if(!isset($_SESSION['userId'])){
-//     header("Location:../authentication/login.php");
-// }
-
+if(!isset($_SESSION['userId'])){
+    header("Location:../authentication/login");
+}
 
 require '../../includes/init.php';
 include pathOf("includes/header.php");
 include pathOf("includes/navbar.php");
 
-$query="SELECT * FROM category";
-$result=mysqli_query($conn,$query);
+$query="SELECT * FROM roomtypes";
+$rows=select($query);
 
 ?>
 
@@ -42,12 +41,12 @@ $result=mysqli_query($conn,$query);
         <!-- [ breadcrumb ] end -->
 
         <!-- [ Main Content ] start -->
-        <form action="../../api/product/insert" method="post" enctype="multipart/form-data">
+        <form>
 
             <div class="row">
                 <!-- [ sample-page ] start -->
 
-                <div class="col-xl-9">
+                <div class="col-xl-6">
                     <div class="card">
                         <div class="card-header">
                             <h5>Room description</h5>
@@ -56,30 +55,56 @@ $result=mysqli_query($conn,$query);
 
                             <div class="mb-3">
                                 <label class="form-label">RoomType</label>
-                                <select class="form-select" name="category">
+                                <select class="form-select" id="roomtype">
                                     <option disable selected>Select RoomType</option>
                                     <?php
-                                while($row=mysqli_fetch_assoc($result)) {?>
-                                    <option value="<?php echo $row['Id'];?>"><?php echo $row['CategoryName'];?></option>
+                                        foreach($rows as $row) {?>
+                                    <option value="<?php echo $row['Id'];?>"><?php echo $row['Name'];?></option>
                                     <?php }?>
                                     ?>
                                 </select>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Room No.</label>
-                                <input type="text" class="form-control" name="name" placeholder="Enter Room No." />
+                                <input type="text" class="form-control" id="roomno" placeholder="Enter Room No." />
                             </div>
 
                             <div class="mb-0">
                                 <label class="form-label">Room Description</label>
                                 <textarea class="form-control" placeholder="Enter Room Description in 2 line"
-                                    name="description"></textarea>
+                                    id="description"></textarea>
                             </div>
 
                         </div>
                     </div>
+                </div>
+
+                <div class="col-xl-6">
 
                     <div class="card">
+                        <div class="card-header">
+                            <h5>Capacity</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label d-flex align-items-center">Capacity<i
+                                                class="ph-duotone ph-users ms-1" data-bs-toggle="tooltip"
+                                                data-bs-title="Users"></i>
+                                        </label>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text"><i class="ph-duotone ph-users ms-1"
+                                                    data-bs-toggle="tooltip" data-bs-title="Users"></i></span>
+                                            <input type="text" class="form-control" placeholder="persons" id="capacity" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- <div class="card">
                         <div class="card-header">
                             <h5>Pricing</h5>
                         </div>
@@ -92,64 +117,21 @@ $result=mysqli_query($conn,$query);
                                                 data-bs-title="Price"></i></label>
                                         <div class="input-group mb-3">
                                             <span class="input-group-text">Rs.</span>
-                                            <input type="text" class="form-control" placeholder="Price" name="price"/>
+                                            <input type="text" class="form-control" placeholder="Price" id="price" />
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-
-                    <div class="card">
-                        <div class="card-header">
-                            <h5>Room image</h5>
-                        </div>
-                        <div class="card-body">
-                            <div class="mb-0">
-                                <!-- <p><span class="text-danger">*</span> Recommended resolution is 640*640 with file size</p> -->
-                                <!-- <label class="btn btn-outline-secondary" for="flupld"><i class="ti ti-upload me-2"></i> -->
-                                <!-- Click to Upload</label> -->
-                                <input type="file" class="form-control mb-3" name="image">
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="card">
-                        <div class="card-body text-end btn-page">
-                            <button class="btn custom mb-0" name="submit" value="submit">Add Room</button>
-                        </div>
-                    </div>
+                    </div> -->
 
                 </div>
 
-                <!-- <div class="col-xl-6">
-
-                    <div class="card">
-                        <div class="card-header">
-                            <h5>Room image</h5>
-                        </div>
-                        <div class="card-body">
-                            <div class="mb-0">
-                                <p><span class="text-danger">*</span> Recommended resolution is 640*640 with file size</p>
-                                <label class="btn btn-outline-secondary" for="flupld"><i class="ti ti-upload me-2"></i>
-                                Click to Upload</label>
-                                <input type="file" class="form-control mb-3" name="image">
-                            </div>
-                        </div>
+                <div class="card">
+                    <div class="card-body text-end btn-page">
+                        <button type="button" class="btn custom mb-0" onclick="sendData()">Add Room</button>
                     </div>
-
-                </div> -->
-                <!-- 
-                <div class="col-sm-6">
-
-                    <div class="card">
-                        <div class="card-body text-end btn-page">
-                            <button class="btn custom mb-0" name="submit" value="submit">Add Room</button>
-                        </div>
-                    </div>
-                </div> -->
+                </div>
 
 
                 <!-- [ sample-page ] end -->
@@ -164,6 +146,39 @@ $result=mysqli_query($conn,$query);
 
 include pathOf("includes/footer.php");
 include pathOf("includes/script.php");
+
+?>
+
+<script>
+
+    function sendData(){
+
+        $.ajax({
+            url:'../../api/rooms/insert',
+            type:'post',
+            data:{
+                roomTypeId:$('#roomtype').val(),
+                roomNo:$('#roomno').val(),
+                description:$('#description').val(),
+                capacity:$('#capacity').val()
+            },
+            success:function(response,status,xhr){
+                if(xhr.status == 200){
+                    alert("Room added successfully!");
+                    window.location.href = "../../pages/rooms/roomList";
+                } else {
+                    alert("Room not added. Please try again.");
+                    window.location.href = "addRoom";
+                }
+            }
+        });
+        
+    }
+
+</script>
+
+<?php
+
 include pathOf("includes/pageEnd.php");
 
 ?>

@@ -1,6 +1,6 @@
 <?php  
-session_start();
 require '../../includes/init.php';
+
 require_once '../../vendor/autoload.php';
 
 // Initialize Google Client
@@ -32,7 +32,7 @@ if (isset($_GET['code'])) {
 
         // Check if user exists in database
         if ($conn) {
-            $stmt = $conn->prepare("SELECT * FROM user WHERE Email = ?");
+            $stmt = $conn->prepare("SELECT * FROM users WHERE Email = ?");
             $stmt->bind_param("s", $email);
             $stmt->execute();
             $result = $stmt->get_result();
@@ -192,10 +192,10 @@ if (isset($_GET['code'])) {
     <div class="login-container">
         <img src="../../assets/images/logomain.png" alt="Hotel Logo">
         <h2>Login to Your Account</h2>
-        <form action="../../api/authentication/login" method="POST">
+        <form action="../../api/authentication/login" method="post">
             <input type="text" class="input-field" name="username" placeholder="Enter Username" required autofocus>
             <input type="password" class="input-field" name="password" placeholder="Enter Password" required>
-            <button type="submit" class="btn btn-login">Login</button>
+            <button type="submit" class="btn btn-login" onclick="sendData()">Login</button>
         </form>
         <a href="#" class="forgot-password">Forgot Password?</a>
 
@@ -209,6 +209,7 @@ if (isset($_GET['code'])) {
             </div>
         </div>
     </div>
+
 </body>
 
 </html>

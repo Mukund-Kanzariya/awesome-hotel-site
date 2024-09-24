@@ -1,10 +1,10 @@
 <?php
 
-// session_start();
+session_start();
 
-// if(!isset($_SESSION['userId'])){
-//     header("Location:../authentication/login.php");
-// }
+if(!isset($_SESSION['userId'])){
+    header("Location:../authentication/login");
+}
 
 require '../../includes/init.php';
 include pathOf("includes/header.php");
@@ -16,7 +16,6 @@ $query="SELECT * FROM `roles` WHERE Id=?";
 $param=[$id];
 
 $row=selectOne($query,$param);
-
 
 ?>
 

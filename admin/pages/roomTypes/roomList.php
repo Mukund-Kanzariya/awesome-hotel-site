@@ -1,25 +1,17 @@
 <?php
 
-// session_start();
+session_start();
 
-// if(!isset($_SESSION['userId'])){
-//     header("Location:../authentication/login.php");
-// }
-
+if(!isset($_SESSION['userId'])){
+    header("Location:../authentication/login");
+}
 
 require '../../includes/init.php';
 include pathOf("includes/header.php");
 include pathOf("includes/navbar.php");
 
-
-$query ="SELECT * FROM `category`";
-
-$result = mysqli_query($conn,$query);
-
-// $rows=mysqli_fetch_assoc($result);
-// $rows=mysqli_fetch_array($result); bey sem j chhe at a time a single row return karse
-
-// $total_records=mysqli_num_rows($result);
+$query="SELECT * FROM `roomTypes`";
+$rows=select($query);
 
 $index=1;
 
@@ -67,19 +59,21 @@ $index=1;
                                     <tr>
                                         <th>Sr.No.</th>
                                         <th>RoomType Name</th>
+                                        <th>Price</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php while($rows=mysqli_fetch_array($result)) { ?>
+                                    <?php foreach($rows as $row) { ?>
                                     <tr>
                                         <td><?= $index++ ?></td>
-                                        <td><?= $rows['CategoryName'] ?>
+                                        <td><?= $row['Name'] ?>
+                                        <td><?= $row['Price'] ?>
                                             <div class="overlay-edit">
                                                 <ul class="list-inline mb-0">
-                                                    <li class="list-inline-item m-0"><a href="update ?updateId=<?= $rows['Id'] ?>";
+                                                    <li class="list-inline-item m-0"><a href="update ?updateId=<?= $row['Id'] ?>";
                                                             class="avtar avtar-s btn custom"><i
                                                                 class="ti ti-pencil f-18"></i></a></li>
-                                                    <li class="list-inline-item m-0"><a href="../../api/category/delete ?deleteId=<?= $rows['Id'] ?>"
+                                                    <li class="list-inline-item m-0"><a href="../../api/roomTypes/delete ?deleteId=<?= $row['Id'] ?>"
                                                             class="avtar avtar-s btn bg-white btn-link-danger"><i
                                                                 class="ti ti-trash f-18"></i></a></li>
                                                 </ul>

@@ -1,10 +1,10 @@
 <?php
 
-// session_start();
+session_start();
 
-// if(!isset($_SESSION['userId'])){
-//     header("Location:../authentication/login.php");
-// }
+if(!isset($_SESSION['userId'])){
+    header("Location:../authentication/login");
+}
 
 require '../../includes/init.php';
 include pathOf("includes/header.php");
@@ -40,7 +40,7 @@ include pathOf("includes/navbar.php");
         <div class="row">
             <!-- [ sample-page ] start -->
             <div class="col-xl-6">
-                <form onsubmit="return false;">
+                <form>
                     <div class="card">
                         <div class="card-header">
                             <h5>Role Details</h5>

@@ -69,5 +69,3 @@ function authenticate($moduleName, $userId)
     $rows = $statement->fetch(PDO::FETCH_ASSOC);
     return $rows;
 }
-
-session_start();
