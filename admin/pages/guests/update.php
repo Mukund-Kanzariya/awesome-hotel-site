@@ -2,27 +2,49 @@
 session_start();
 
 if (!isset($_SESSION['userId'])) {
-    header("Location:../authentication/login");
+    header("Location: ../authentication/login");
+    exit();
 }
 
 require '../../includes/init.php';
 include pathOf("includes/header.php");
 include pathOf("includes/navbar.php");
 
+// Get guest ID from the URL or request
+$guestId = $_GET['updateId'];
+
+// Fetch existing guest details
+$query = "SELECT * FROM guests WHERE Id = ?";
+$guest = selectOne($query, [$guestId]);
+
+// Fetch room types and their respective prices (AC/Non-AC)
 $query = "SELECT * FROM `roomtypes`";
 $roomtypes = select($query);
-
-
-$id=$_GET['updateId'];
-$query1="SELECT * FROM `guests` WHERE Id=?";
-$param1=[$id];
-$row=selectOne($query1,$param1);
-
 ?>
 
 <!-- [ Main Content ] start -->
 <div class="pc-container">
     <div class="pc-content">
+        <!-- [ breadcrumb ] start -->
+        <div class="page-header">
+            <div class="page-block">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="../dashboard/index.html">Home</a></li>
+                            <li class="breadcrumb-item"><a href="javascript: void(0)">Guest</a></li>
+                            <li class="breadcrumb-item" aria-current="page">Update Guest</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="page-header-title">
+                            <h2 class="mb-0">Update Guest</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- [ breadcrumb ] end -->
         <!-- [ Main Content ] start -->
         <form enctype="multipart/form-data">
             <div class="row">
@@ -35,24 +57,22 @@ $row=selectOne($query1,$param1);
                         <div class="card-body">
                             <div class="mb-3">
                                 <label class="form-label">Name</label>
-                                <input type="hidden" id="id" value="<?= $row['Id'] ?>">
-                                <input type="text" class="form-control" placeholder="Enter Name" id="name"
-                                    value="<?= $row['Name'] ?>" required autofocus />
+                                <input type="text" class="form-control" id="name" value="<?= $guest['Name'] ?>" required
+                                    autofocus />
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Mobile Number</label>
-                                <input type="text" class="form-control" placeholder="Enter Mobile No." id="mobile"
-                                    value="<?= $row['Mobile'] ?>" required />
+                                <input type="text" class="form-control" id="mobile" value="<?= $guest['Mobile'] ?>"
+                                    required />
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">E-mail</label>
-                                <input type="email" class="form-control" placeholder="Enter E-mail" id="email"
-                                    value="<?= $row['Email'] ?>" required />
+                                <input type="email" class="form-control" id="email" value="<?= $guest['Email'] ?>"
+                                    required />
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Address</label>
-                                <input class="form-control" placeholder="Enter Address" id="address"
-                                    value="<?= $row['Address'] ?>" required></input>
+                                <input class="form-control" id="address" value="<?= $guest['Address'] ?>" required>
                             </div>
                         </div>
                     </div>
@@ -63,9 +83,10 @@ $row=selectOne($query1,$param1);
                         <div class="card-body">
                             <div class="mb-0">
                                 <p><span class="text-danger">*</span> Recommended Passport-Size Image</p>
-                                <input type="hidden" class="form-control" id="oldimage" value="<?= $row["Image"];?>">
-                                <img src="<?= "../../assets/images/guests/". $row["Image"];?>" width="150px">
-                                <input type="file" class="form-control mb-3" id="image" required>
+                                <input type="file" class="form-control mb-3" id="image">
+                                <p>Current Image: <img src="../../assets/images/guests/<?= $guest['Image'] ?>"
+                                        width="100">
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -81,27 +102,47 @@ $row=selectOne($query1,$param1);
                         <div class="card-body">
                             <div class="mb-3">
                                 <label class="form-label">Check-In Date</label>
-                                <input type="date" class="form-control" id="checkin" value="<?= $row['CheckInDate'] ?>"
-                                    required />
+                                <input type="date" class="form-control" id="checkin"
+                                    value="<?= $guest['CheckInDate'] ?>" required />
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Check-Out Date</label>
                                 <input type="date" class="form-control" id="checkout"
-                                    value="<?= $row['CheckOutDate'] ?>" required />
+                                    value="<?= $guest['CheckOutDate'] ?>" required />
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Total Days</label>
+                                <input type="text" class="form-control" id="totalDays" disabled />
                             </div>
                         </div>
                     </div>
+
                     <div class="card">
                         <div class="card-header">
                             <h5>Select Room</h5>
                         </div>
                         <div class="card-body">
                             <div class="mb-3">
+                                <label class="form-label">Select AC/Non-AC</label>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <input type="radio" name="AcNonAc" value="AC" id="acRadio"
+                                                onclick="filterRooms('AC')" />
+                                            <label for="ac">AC</label>
+                                            <input type="radio" name="AcNonAc" value="Non-AC" id="nonAcRadio"
+                                                onclick="filterRooms('Non-AC')" />
+                                            <label for="nonAc">Non-AC</label>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <label class="form-label">Select Room Type</label>
-                                <select class="form-select" id="roomtype" onchange="loadRooms(); calculateTotal()">
+                                <select class="form-select" id="roomtype" onchange="calculateTotal()">
                                     <option disabled selected>Select Room Type</option>
                                     <?php foreach ($roomtypes as $type) { ?>
-                                    <option value="<?= $type['Id'] ?>" data-price="<?= $type['Price'] ?>">
+                                    <option value="<?= $type['Id'] ?>" data-price-ac="<?= $type['Price_AC'] ?>"
+                                        data-price-nonac="<?= $type['Price_NonAC'] ?>">
                                         <?= $type['Name'] ?>
                                     </option>
                                     <?php } ?>
@@ -123,13 +164,13 @@ $row=selectOne($query1,$param1);
                             <div class="mb-3">
                                 <label class="form-label">Select Room Number(s)</label>
                                 <div id="roomNoContainer">
-                                    <!-- Room number dropdowns will be dynamically added here based on quantity -->
+                                    <!-- Existing Room Numbers can be displayed here -->
                                 </div>
                             </div>
 
                             <div class="mb-3">
                                 <label class="form-label">Total Bill</label>
-                                <input type="text" class="form-control" placeholder="Enter Total Amount" id="total"
+                                <input type="text" class="form-control" id="total" value="<?= $guest['TotalBill'] ?>"
                                     readonly />
                             </div>
                         </div>
@@ -140,7 +181,7 @@ $row=selectOne($query1,$param1);
                 <div class="col-sm-12">
                     <div class="card">
                         <div class="card-body text-end btn-page">
-                            <button class="btn custom mb-0" onclick="sendData(event)">Update Guest</button>
+                            <button class="btn custom mb-0" onclick="updateData(event)">Update Guest</button>
                         </div>
                     </div>
                 </div>
@@ -155,32 +196,66 @@ include pathOf("includes/footer.php");
 include pathOf("includes/script.php");
 ?>
 
-<!-- Calculate Total Bill -->
+<!-- JavaScript Section -->
 <script>
+// Function to calculate the number of days between check-in and check-out
+
+let totalDays = 0;
+
+function calculateDays() {
+    var checkinDate = new Date(document.getElementById('checkin').value);
+    var checkoutDate = new Date(document.getElementById('checkout').value);
+
+    // Ensure both dates are selected
+    if (checkinDate && checkoutDate) {
+        // Calculate the difference in milliseconds
+        var timeDifference = checkoutDate.getTime() - checkinDate.getTime();
+
+        // Convert the time difference from milliseconds to days
+        var daysDifference = timeDifference / (1000 * 3600 * 24);
+
+        // Ensure that checkout is after checkin
+        if (daysDifference > 0) {
+            totalDays = Math.floor(daysDifference);
+            document.getElementById('totalDays').value = daysDifference;
+        } else {
+            document.getElementById('totalDays').value = 'Invalid Dates';
+        }
+    }
+}
+
+// Attach event listeners to the checkin and checkout date inputs
+document.getElementById('checkin').addEventListener('change', calculateDays);
+document.getElementById('checkout').addEventListener('change', calculateDays);
+
+
+// Calculate Total Bill based on selected room type and quantity
 function calculateTotal() {
     var roomType = document.getElementById('roomtype');
     var selectedRoomType = roomType.options[roomType.selectedIndex];
-    var price = selectedRoomType.getAttribute('data-price');
+    var acNonAc = document.querySelector('input[name="AcNonAc"]:checked').value;
+    var price = acNonAc === 'AC' ? selectedRoomType.getAttribute('data-price-ac') : selectedRoomType.getAttribute(
+        'data-price-nonac');
     var quantity = document.getElementById('quantity').value;
 
     if (price && quantity) {
-        var total = price * quantity;
+        var total = price * quantity * totalDays;
         document.getElementById('total').value = total;
     }
 }
-</script>
 
-<!-- Load Available Rooms and handle dynamic room number selection -->
-<script>
+// Load Available Rooms based on selected type (AC/Non-AC) and quantity
 function loadRooms() {
     var roomTypeId = $('#roomtype').val();
+    var acNonAc = $('input[name="AcNonAc"]:checked').val();
     var quantity = $('#quantity').val();
 
     $.ajax({
-        url: '../../api/rooms/getRoomsByType',
+        url: '../../api/rooms/getRoomsByTypeAndAcStatus',
         type: 'POST',
         data: {
-            roomtype: roomTypeId
+            roomtype: roomTypeId,
+            acNonAc: acNonAc
         },
         success: function(response) {
             var rooms = JSON.parse(response);
@@ -205,53 +280,59 @@ function loadRooms() {
         }
     });
 }
-</script>
 
-<!-- Handle Form Submission -->
-<script>
-function sendData(event) {
-    event.preventDefault(); // Prevent form from submitting
+
+// Handle form submission to update guest details
+function updateData(event) {
+    event.preventDefault();
 
     var formData = new FormData();
-    formData.append('id', $('#id').val());
+    formData.append('id', '<?= $guestId ?>'); // Append guest ID to identify the guest
     formData.append('name', $('#name').val());
     formData.append('mobile', $('#mobile').val());
     formData.append('email', $('#email').val());
     formData.append('address', $('#address').val());
-    formData.append('oldimage', $('#oldimage').val());
-    formData.append('image', $('#image')[0].files[0]);
+
+    // Update image if a new one is uploaded
+    if ($('#image')[0].files.length > 0) {
+        formData.append('image', $('#image')[0].files[0]);
+    }
+
     formData.append('checkin', $('#checkin').val());
     formData.append('checkout', $('#checkout').val());
+    formData.append('roomtype', $('#roomtype').val());
+    formData.append('quantity', $('#quantity').val());
 
-    // Append each selected room number
+    // Append selected room numbers
     $('select[name="roomno[]"]').each(function() {
         var roomNumber = $(this).val();
-        console.log("Appending room number: " + roomNumber); // Debugging line
-        formData.append('roomno[]', roomNumber);
+        if (roomNumber) {
+            formData.append('roomno[]', roomNumber);
+        } else {
+            alert('Please select a room number for each room.');
+            return;
+        }
     });
-
+    
     formData.append('total', $('#total').val());
 
     $.ajax({
         url: '../../api/guests/update',
-        type: 'POST',
+        method: 'POST',
         data: formData,
         contentType: false,
         processData: false,
-        success: function(response, status, xhr) {
-            if (xhr.status == 200) {
-                alert("Guest Update Successfully");
-                window.location.href = "../../pages/guests/guestList";
-            } else {
-                alert("Error Update guest. Please try again.");
-                window.location.href = "../../pages/guests/guestList";
-            }
+        success: function(response) {
+            // Handle success response
+            alert('Guest updated successfully');
+            window.location.href = '../../pages/guests/guestList';
+        },
+        error: function(response) {
+            // Handle error response
+            alert('Error updating guest');
         }
     });
 }
+
+// Existing JS functions for room calculations
 </script>
-
-
-<?php
-include pathOf("includes/pageEnd.php");
-?>

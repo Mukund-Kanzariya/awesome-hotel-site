@@ -83,6 +83,26 @@ $rows=select($query);
 
                     <div class="card">
                         <div class="card-header">
+                            <h5>AC-NonAC</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <input type="radio" name="AcNonAc" value="AC">
+                                        <label for="ac">AC</label><br>
+
+                                        <input type="radio" name="AcNonAc" value="Non-AC">
+                                        <label for="nonAc">Non-AC</label><br>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="card">
+                        <div class="card-header">
                             <h5>Capacity</h5>
                         </div>
                         <div class="card-body">
@@ -96,7 +116,8 @@ $rows=select($query);
                                         <div class="input-group mb-3">
                                             <span class="input-group-text"><i class="ph-duotone ph-users ms-1"
                                                     data-bs-toggle="tooltip" data-bs-title="Users"></i></span>
-                                            <input type="text" class="form-control" placeholder="persons" id="capacity" />
+                                            <input type="text" class="form-control" placeholder="persons"
+                                                id="capacity" />
                                         </div>
                                     </div>
                                 </div>
@@ -104,26 +125,6 @@ $rows=select($query);
                         </div>
                     </div>
 
-                    <!-- <div class="card">
-                        <div class="card-header">
-                            <h5>Pricing</h5>
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label class="form-label d-flex align-items-center">Price <i
-                                                class="ph-duotone ph-info ms-1" data-bs-toggle="tooltip"
-                                                data-bs-title="Price"></i></label>
-                                        <div class="input-group mb-3">
-                                            <span class="input-group-text">Rs.</span>
-                                            <input type="text" class="form-control" placeholder="Price" id="price" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> -->
 
                 </div>
 
@@ -150,31 +151,32 @@ include pathOf("includes/script.php");
 ?>
 
 <script>
+function sendData() {
 
-    function sendData(){
+    var acnonac = $("input[name='AcNonAc']:checked").val();
 
-        $.ajax({
-            url:'../../api/rooms/insert',
-            type:'post',
-            data:{
-                roomTypeId:$('#roomtype').val(),
-                roomNo:$('#roomno').val(),
-                description:$('#description').val(),
-                capacity:$('#capacity').val()
-            },
-            success:function(response,status,xhr){
-                if(xhr.status == 200){
-                    alert("Room added successfully!");
-                    window.location.href = "../../pages/rooms/roomList";
-                } else {
-                    alert("Room not added. Please try again.");
-                    window.location.href = "addRoom";
-                }
+    $.ajax({
+        url: '../../api/rooms/insert',
+        type: 'post',
+        data: {
+            roomTypeId: $('#roomtype').val(),
+            roomNo: $('#roomno').val(),
+            description: $('#description').val(),
+            acnonac: acnonac, 
+            capacity: $('#capacity').val()
+        },
+        success: function(response, status, xhr) {
+            if (xhr.status == 200) {
+                alert("Room added successfully!");
+                window.location.href = "../../pages/rooms/roomList";
+            } else {
+                alert("Room not added. Please try again.");
+                window.location.href = "addRoom";
             }
-        });
-        
-    }
+        }
+    });
 
+}
 </script>
 
 <?php

@@ -49,13 +49,13 @@ CREATE TABLE
 --         FOREIGN KEY (`ModuleId`) REFERENCES `Modules` (`Id`)
 --     );
 
-CREATE TABLE
-    `RoomTypes` (
-        `Id` INT PRIMARY KEY AUTO_INCREMENT,
-        `Name` VARCHAR(200) NOT NULL,
-        `Price` INT NOT NULL,      
+CREATE TABLE `RoomTypes` (
+    `Id` INT PRIMARY KEY AUTO_INCREMENT,
+    `Name` VARCHAR(200) NOT NULL,
+    `Price_AC` INT NOT NULL,       
+    `Price_NonAC` INT NOT NULL     
+);
 
-    );
 
 -- CREATE TABLE
 --     `Rooms` (
@@ -69,35 +69,20 @@ CREATE TABLE
 --     );
 
 CREATE TABLE rooms (
-    `Id` INT AUTO_INCREMENT ,   
-    `RoomTypeId`INT NOT NULL,           
-    `RoomNumber` INT NOT NULL ,        
-    `description` VARCHAR(255) NOT NULL , 
+    `Id` INT AUTO_INCREMENT,   
+    `RoomTypeId` INT NOT NULL,           
+    `RoomNumber` INT NOT NULL,   
+    `description` VARCHAR(255) NOT NULL, 
+    `Ac-NonAc` VARCHAR(50) NOT NULL, 
     `Capacity` INT NOT NULL,                       
     `IsAvailable` BOOLEAN DEFAULT TRUE,        
     `CreatedAt` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  
     `UpdatedAt` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    PRIMARY KEY (Id,RoomNumber),
-    FOREIGN KEY (`RoomTypeId`) REFERENCES `RoomTypes` (`Id`)  
+    PRIMARY KEY (`Id`), -- Primary key is now just 'Id'
+    UNIQUE (`RoomNumber`), -- RoomNumber is unique
+    FOREIGN KEY (`RoomTypeId`) REFERENCES `RoomTypes` (`Id`)
 );
 
-
--- CREATE TABLE
---     `Guests` (
---         `Id` INT PRIMARY KEY AUTO_INCREMENT,
---         `Name` VARCHAR(200) NOT NULL,
---         `MobileNo` INT NOT NULL,
---         `Email` VARCHAR(200) NOT NULL,
---         `Address` VARCHAR(200) NOT NULL,
---         `City` VARCHAR(200) NOT NULL,
---         `State` VARCHAR(200) NOT NULL,
---         `CheckInTime` DATETIME NOT NULL,
---         `CheckOutTime` DATETIME NOT NULL,
---         `AllotedRoomId` INT NOT NULL,
---         `TotalPrice` INT NOT NULL,
---         `Image` VARCHAR(200) NOT NULL,
---         FOREIGN KEY (`AllotedRoomId`) REFERENCES `Rooms` (`Id`)
---     );
 
 CREATE TABLE guests (
     `Id` INT AUTO_INCREMENT PRIMARY KEY,
@@ -118,9 +103,8 @@ CREATE TABLE guests (
 CREATE TABLE `guestrooms` (
     `Id` INT AUTO_INCREMENT PRIMARY KEY,
     `GuestId` INT NOT NULL,
-    `RoomNo` INT NOT NULL,
-    FOREIGN KEY (`GuestId`) REFERENCES `guests`(`Id`),
-    FOREIGN KEY (`RoomNo`) REFERENCES `rooms`(`RoomNumber`)
+    `RoomNo` VARCHAR(10) NOT NULL,
+    FOREIGN KEY (`GuestId`) REFERENCES `guests`(`Id`)
 );
 
 
@@ -130,7 +114,28 @@ CREATE TABLE
         `Id` INT PRIMARY KEY AUTO_INCREMENT,
         `Name` VARCHAR(2000) NOT NULL,
         `Amount` INT NOT NULL
-    );
+);
+
+CREATE TABLE
+    `Contact` (
+        `Id` INT PRIMARY KEY AUTO_INCREMENT,
+        `Name` VARCHAR(2000) NOT NULL,
+        `Mobile` INT NOT NULL,
+        `Email` VARCHAR(2000) NOT NULL,
+        `Message` VARCHAR(2000) NOT NULL
+);
+
+CREATE TABLE reviews (
+    `Id` INT AUTO_INCREMENT PRIMARY KEY,
+    `Name` VARCHAR(100) NOT NULL,
+    `Email` VARCHAR(100) NOT NULL,
+    `Rating` INT NOT NULL CHECK (rating BETWEEN 1 AND 5),
+    `Review` TEXT NOT NULL,
+    `Created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+
 
 INSERT INTO
     Roles (Name)

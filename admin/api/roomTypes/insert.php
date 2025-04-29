@@ -3,11 +3,12 @@
 require '../../includes/init.php';
 
 $name=$_POST['name'];
-$price=$_POST['price'];
+$Acprice=$_POST['acprice'];
+$NonAcprice=$_POST['nonacprice'];
 
-$query="INSERT INTO `roomTypes`(Name,Price) VALUES(?, ?)";
+$query="INSERT INTO `roomtypes`(Name,Price_AC,Price_NonAC) VALUES(?, ?, ?)";
 
-$param=[$name,$price];
+$param=[$name,$Acprice,$NonAcprice];
 
 execute($query,$param);
 

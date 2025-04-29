@@ -16,6 +16,7 @@
     <!-- jquery checkdnsrr -->
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    
        
     <script>
       layout_change('light');
@@ -43,7 +44,7 @@
 
     <!-- select rooms  from selected roomtype -->
 
-    <script>
+    <!-- <script>
     document.getElementById('itemSelect').addEventListener('change', function() {
         var selectedValue = this.value;
         document.getElementById('selectedValue').value = selectedValue;
@@ -61,4 +62,4 @@
             }
         };
     });
-</script>
+</script> -->

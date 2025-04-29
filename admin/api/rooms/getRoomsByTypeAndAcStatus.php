@@ -4,13 +4,14 @@
 require '../../includes/init.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Check if the room type ID is passed
-    if (isset($_POST['roomtype'])) {
+    // Check if the room type ID and AC/Non-AC selection are passed
+    if (isset($_POST['roomtype']) && isset($_POST['acNonAc'])) {
         $roomTypeId = $_POST['roomtype'];
+        $acNonAc = $_POST['acNonAc'];
 
-        // Prepare query to fetch rooms based on the selected room type
-        $query = "SELECT RoomNumber FROM rooms WHERE RoomTypeId = ? AND IsAvailable = TRUE ";
-        $params = [$roomTypeId];
+        // Prepare query to fetch rooms based on the selected room type and AC/Non-AC status
+        $query = "SELECT RoomNumber FROM rooms WHERE RoomTypeId = ? AND AcNonAc = ? AND IsAvailable = TRUE";
+        $params = [$roomTypeId, $acNonAc];
 
         // Fetch rooms from the database
         $rooms = select($query, $params);
@@ -23,9 +24,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo json_encode([]);
         }
     } else {
-        // Room type not provided
+        // Room type or AC/Non-AC not provided
         http_response_code(400);
-        echo json_encode(['error' => 'Room type ID is required.']);
+        echo json_encode(['error' => 'Room type and AC/Non-AC selection are required.']);
     }
 } else {
     // Method not allowed

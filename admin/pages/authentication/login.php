@@ -199,7 +199,7 @@ if (isset($_GET['code'])) {
         </form>
         <a href="#" class="forgot-password">Forgot Password?</a>
 
-        <div class="social-login">
+        <!-- <div class="social-login">
             <div class="btn-google">
                 <a href="<?= htmlspecialchars($client->createAuthUrl()) ?>">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
@@ -207,7 +207,7 @@ if (isset($_GET['code'])) {
                     Continue with Google
                 </a>
             </div>
-        </div>
+        </div> -->
     </div>
 
 </body>

@@ -13,7 +13,7 @@ include pathOf('includes/navbar.php');
     <div class="hero-home-text">
         WELCOME TO THE <br> "StayComfort"
         <br>
-        <a href="#" class="hero-button">Book Now</a>
+        <a href="<?= urlOf('pages/booking') ?>" class="hero-button">Book Now</a>
     </div>
 </div>
 

@@ -109,22 +109,25 @@ $index=1;
                                             <p class="mb-0 text-muted">No rooms assigned to this guest.</p>
                                             <?php } ?>
                                         </td>
-
+                                        
                                         <td><?= $row['TotalBill'] ?></td>
                                         <td><?= $row['Status'] ?></td>
+                                        <?php if($row['Status'] == "active") { ?>
                                         <td> <a href="checkOut?guestId=<?= $row['Id'] ?>" class="btn custom">CheckOut
-                                            </a></td>
+                                            </a></td><?php } ?>
                                         <td>
                                             <div class="overlay-edit">
                                                 <ul class="list-inline mb-0">
-                                                    <li class="list-inline-item m-0"><a
+                                                <?php if($row['Status']== "active") { ?>
+                                                    <!-- <li class="list-inline-item m-0"><a
                                                             href="update ?updateId=<?= $row['Id'] ?>"
                                                             class="avtar avtar-s btn custom"><i
-                                                                class="ti ti-pencil f-18"></i></a></li>
-                                                    <li class="list-inline-item m-0"><a
+                                                                class="ti ti-pencil f-18"></i></a></li> -->
+                                                                <?php } ?>
+                                                    <!-- <li class="list-inline-item m-0"><a
                                                             href="../../api/guests/delete?deleteId=<?= $row['Id'] ?>"
                                                             class="avtar avtar-s btn bg-white btn-link-danger"><i
-                                                                class="ti ti-trash f-18"></i></a></li>
+                                                                class="ti ti-trash f-18"></i></a></li> -->
                                                 </ul>
                                             </div>
                                         </td>

@@ -154,7 +154,8 @@ $row1 = select($query1, $param1); // Use select() for multiple rows
                                             <li class="list-group-item px-0 pb-0">
 
                                                 <div class="card-body text-end btn-page">
-                                                    <button class="btn custom mb-0" onclick="sendData()">CheckOut
+                                                    <button type="button" class="btn custom mb-0"
+                                                        onclick="sendData()">CheckOut
                                                         Guest</button>
                                                 </div>
 
@@ -187,24 +188,28 @@ $row1 = select($query1, $param1); // Use select() for multiple rows
 <script>
 function sendData() {
     $.ajax({
-        url: '../../api/guests/checkOut.php',
+        url: '../../api/guests/checkOut',
         type: 'POST',
         data: {
-            id: <?= $row['Id'];?>,
-            roomno: <?= $row['RoomNo'];?>
+            id: '<?= $row['Id']; ?>', // Sending guest Id from PHP
+            roomno: <?= json_encode(array_column($row1, 'RoomNo')); ?> // Sending room numbers as a JSON array
         },
         success: function(response, status, xhr) {
             if (xhr.status == 200) {
                 alert("Guest successfully Checked Out!");
-                window.location.href = "../../pages/guests/guestList.php";
+                window.location.href = "../../pages/guests/guestList";
             } else {
                 alert("Error on checking out guest. Please try again.");
-                window.location.href = "../../pages/guests/guestList.php";
             }
+        },
+        error: function(xhr, status, error) {
+            console.log("Error: " + error);
+            alert("Error occurred. Please try again.");
         }
     });
 }
 </script>
+
 
 <?php
 

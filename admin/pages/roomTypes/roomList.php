@@ -59,7 +59,8 @@ $index=1;
                                     <tr>
                                         <th>Sr.No.</th>
                                         <th>RoomType Name</th>
-                                        <th>Price</th>
+                                        <th>NonAC-Price</th>
+                                        <th>AC-Price</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -67,7 +68,8 @@ $index=1;
                                     <tr>
                                         <td><?= $index++ ?></td>
                                         <td><?= $row['Name'] ?>
-                                        <td><?= $row['Price'] ?>
+                                        <td><?= $row['Price_NonAC'] ?>
+                                        <td><?= $row['Price_AC'] ?>
                                             <div class="overlay-edit">
                                                 <ul class="list-inline mb-0">
                                                     <li class="list-inline-item m-0"><a href="update ?updateId=<?= $row['Id'] ?>";

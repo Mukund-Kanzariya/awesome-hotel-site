@@ -65,12 +65,23 @@ include pathOf("includes/navbar.php");
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label class="form-label d-flex align-items-center">Price <i
+                                        <label class="form-label d-flex align-items-center"> Non-Ac Price<i
                                                 class="ph-duotone ph-info ms-1" data-bs-toggle="tooltip"
                                                 data-bs-title="Price"></i></label>
                                         <div class="input-group mb-3">
                                             <span class="input-group-text">Rs.</span>
-                                            <input type="text" class="form-control" placeholder="Price" id="price" />
+                                            <input type="text" class="form-control" placeholder="NonAC-Price"
+                                                id="NonAcPrice" />
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label d-flex align-items-center"> Ac Price <i
+                                                class="ph-duotone ph-info ms-1" data-bs-toggle="tooltip"
+                                                data-bs-title="Price"></i></label>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text">Rs.</span>
+                                            <input type="text" class="form-control" placeholder="AC-Price"
+                                                id="AcPrice" />
                                         </div>
                                     </div>
                                 </div>
@@ -106,7 +117,8 @@ function sendData() {
         method: 'POST',
         data: {
             name: $('#name').val(),
-            price: $('#price').val()
+            nonacprice: $('#NonAcPrice').val(),
+            acprice: $('#AcPrice').val()
         },
         success: function(response, status, xhr) {
             if (xhr.status == 200) {

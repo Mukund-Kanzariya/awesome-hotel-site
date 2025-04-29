@@ -52,7 +52,7 @@ if (isset($_SESSION['userId'])) {
                     <!-- <label>Navigation</label> -->
                     <i class="ph-duotone ph-gauge"></i>
                 </li>
-                <!-- <li class="pc-item pc-hasmenu">
+                <li class="pc-item pc-hasmenu">
                     <a href="<?= urlOf('index') ?>" class="pc-link">
                         <span class="pc-micon">
                             <i class="ph-duotone ph-squares-four"></i>
@@ -60,7 +60,7 @@ if (isset($_SESSION['userId'])) {
                         </span>
                         <span class="pc-mtext">Dashboard</span>
                     </a>
-                </li> -->
+                </li>
                 <!-- <li class="pc-item pc-hasmenu">
                     <a href="#!" class="pc-link">
                         <span class="pc-micon">
@@ -192,6 +192,22 @@ if (isset($_SESSION['userId'])) {
                     </ul>
                 </li>
 
+                <li class="pc-item pc-hasmenu">
+                    <a href="#!" class="pc-link">
+                        <span class="pc-micon">
+                            <i class="fas fa-user"></i>
+                        </span>
+                        <span class="pc-mtext">From User Side</span><span class="pc-arrow"><i
+                                data-feather="chevron-right"></i></span></a>
+                    <ul class="pc-submenu">
+
+                        <li class="pc-item"><a class="pc-link" href="<?= urlOf('pages/fromUserSide/Reviews') ?>">Reviews
+                                List</a></li>
+                        <li class="pc-item"><a class="pc-link" href="<?= urlOf('pages/fromUserSide/Contact') ?>">Contact
+                                List</a></li>
+                    </ul>
+                </li>
+
 
         </div>
         <div class="card pc-user-card">
@@ -287,14 +303,14 @@ if (isset($_SESSION['userId'])) {
                         </form>
                     </div>
                 </li>
-                <li class="pc-h-item d-none d-md-inline-flex">
+                <!-- <li class="pc-h-item d-none d-md-inline-flex">
                     <form class="form-search">
                         <i class="ph-duotone ph-magnifying-glass icon-search"></i>
                         <input type="search" class="form-control" placeholder="Search..." />
 
                         <button class="btn btn-search" style="padding: 0"><kbd>ctrl+k</kbd></button>
                     </form>
-                </li>
+                </li> -->
             </ul>
         </div>
         <!-- [Mobile Media Block end] -->
@@ -320,13 +336,13 @@ if (isset($_SESSION['userId'])) {
                         </a>
                     </div>
                 </li>
-                <li class="pc-h-item">
+                <!-- <li class="pc-h-item">
                     <a class="pc-head-link pct-c-btn" href="#" data-bs-toggle="offcanvas"
                         data-bs-target="#offcanvas_pc_layout">
                         <i class="ph-duotone ph-gear-six"></i>
                     </a>
-                </li>
-                
+                </li> -->
+
                 <li class="dropdown pc-h-item header-user-profile">
                     <a class="pc-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown" href="#"
                         role="button" aria-haspopup="false" data-bs-auto-close="outside" aria-expanded="false">

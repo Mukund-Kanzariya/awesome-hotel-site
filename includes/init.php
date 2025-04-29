@@ -6,7 +6,7 @@ define("BASE_URL", "/hotel");
 
 date_default_timezone_set('Asia/Kolkata');
 
-$connection = new PDO("mysql:host=localhost;port=3306;dbname=hotel", "root", "");
+$connection = new PDO("mysql:host=localhost;port=3306;dbname=stayComfort", "root", "");
 
 function pathOf($path)
 {

@@ -11,7 +11,8 @@ include pathOf('includes/navbar.php');
     <div class="hero-content">
         <h1>Discover Our Rooms</h1>
         <p>Luxury and comfort for every taste</p><br>
-        <a href="#" class="hero-button">Book Now</a>
+        <a href="<?= urlOf('pages/booking') ?>" class="hero-button">Book Now</a>
+        <a href="<?= urlOf('pages/review') ?>" class="hero-button">Add Review</a>
     </div>
 </div><br>
 
@@ -135,10 +136,10 @@ include pathOf('includes/navbar.php');
 
 
 
-<!-- More Room Types with Hover Effects -->
+<!-- More Room Types with Hover Effects
 <div class="rooms-container container">
     <div class="row">
-        <!-- Room Card with Flip Effect -->
+        Room Card with Flip Effect
         <div class="col-md-4">
             <div class="room-card flip-card">
                 <div class="flip-card-inner">
@@ -156,7 +157,7 @@ include pathOf('includes/navbar.php');
             </div>
         </div>
 
-        <!-- Room Card with Zoom-In Effect -->
+        Room Card with Zoom-In Effect
         <div class="col-md-4">
             <div class="room-card zoom-card">
                 <img src="<?= urlOf('assets/img/suite2.jpg') ?>" alt="Junior Suite">
@@ -170,7 +171,7 @@ include pathOf('includes/navbar.php');
             </div>
         </div>
 
-        <!-- Room Card with Slide-Up Effect -->
+        Room Card with Slide-Up Effect  
         <div class="col-md-4">
             <div class="room-card slide-card">
                 <img src="<?= urlOf('assets/img/family3.jpeg') ?>" alt="Family Room">
@@ -184,7 +185,7 @@ include pathOf('includes/navbar.php');
             </div>
         </div>
     </div>
-</div>
+</div> -->
 
 <!-- Full-Screen Parallax Section with Text Overlay -->
 <div class="parallax-full" style="background-image: url('../assets/img/villa11.jpg');">

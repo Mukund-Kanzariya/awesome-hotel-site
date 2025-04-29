@@ -16,8 +16,9 @@
             <ul>
                 <li><a href="<?= urlOf('') ?>">Home</a></li>
                 <li><a href="<?= urlOf('pages/rooms') ?>">Rooms</a></li>
-                <li><a href="<?= urlOf('pages/services') ?>">Services</a></li>
-                <li><a href="<?= urlOf('pages/gallary') ?>">Gallery</a></li>
+                <li><a href="<?= urlOf('pages/Booking') ?>">Booking</a></li>
+                <li><a href="<?= urlOf('pages/aboutUs') ?>">About Us</a></li>
+                <li><a href="<?= urlOf('pages/review') ?>">Reviews</a></li>
                 <li><a href="<?= urlOf('pages/contact') ?>">Contact Us</a></li>
             </ul>
         </div>

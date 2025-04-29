@@ -19,12 +19,15 @@ include pathOf('includes/navbar.php');
             </div>
 
             <div class="col-md-6">
-                <form action="process_contact.php" method="post" class="contact-form">
+                <form>
                     <div class="form-group">
                         <label for="name">Your Name</label>
                         <input type="text" id="name" name="name" class="form-control" required>
                     </div>
-
+                    <div class="form-group">
+                        <label for="name">Your Mobile No.</label>
+                        <input type="text" id="mobile" name="name" class="form-control" required>
+                    </div>
                     <div class="form-group">
                         <label for="email">Your Email</label>
                         <input type="email" id="email" name="email" class="form-control" required>
@@ -35,7 +38,7 @@ include pathOf('includes/navbar.php');
                         <textarea id="message" name="message" rows="5" class="form-control" required></textarea>
                     </div>
 
-                    <button type="submit" class="btn btn-lg btn-contact">Send Message</button>
+                    <button type="submit" class="btn btn-lg btn-contact" onclick="sendData()">Send Message</button>
                 </form>
             </div>
         </div>
@@ -45,5 +48,31 @@ include pathOf('includes/navbar.php');
 <?php 
 include pathOf('includes/footer.php'); 
 include pathOf('includes/scripts.php'); 
+?>
+
+<script>
+    function sendData(){
+        $.ajax({
+            url:'../api/contact/insert',
+            type:'post',
+            data:{
+                name:$('#name').val(),
+                mobile:$('#mobile').val(),
+                email:$('#email').val(),
+                message:$('#message').val()
+            },
+            success:function(response,status,xhr){
+                if(xhr.status == 200){
+                    alert("Contact sent successfully");
+                    Windows.location.href = '../../';
+                }else{
+                    alert("Failed to send contact. Please try again");
+                }
+            }
+        });
+    }
+</script>
+
+<?php
 include pathOf('includes/pageEnd.php'); 
 ?>

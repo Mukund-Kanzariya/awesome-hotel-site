@@ -58,13 +58,13 @@ $row=selectOne($query,$param);
                             <div class="mb-3">
                                 <input type="hidden" id="id" value="<?= $row['Id'] ?>">
                                 <label class="form-label">Room Type Name</label>
-                                <input type="text" class="form-control" placeholder="Enter Room Type Name" id="name" value="<?= $row['Name'] ?>"
-                                    autofocus />
+                                <input type="text" class="form-control" placeholder="Enter Room Type Name" id="name"
+                                    value="<?= $row['Name'] ?>" autofocus />
                             </div>
                         </div>
                     </div>
 
-                    
+
                     <div class="card">
                         <div class="card-header">
                             <h5>Pricing</h5>
@@ -73,12 +73,23 @@ $row=selectOne($query,$param);
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label class="form-label d-flex align-items-center">Price <i
+                                        <label class="form-label d-flex align-items-center"> Non-Ac Price<i
                                                 class="ph-duotone ph-info ms-1" data-bs-toggle="tooltip"
                                                 data-bs-title="Price"></i></label>
                                         <div class="input-group mb-3">
                                             <span class="input-group-text">Rs.</span>
-                                            <input type="text" class="form-control" placeholder="Price" id="price" value="<?= $row['Price'] ?>" />
+                                            <input type="text" class="form-control" value="<?= $row['Price_NonAC'] ?>"
+                                                id="NonAcPrice" />
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label d-flex align-items-center"> Ac Price <i
+                                                class="ph-duotone ph-info ms-1" data-bs-toggle="tooltip"
+                                                data-bs-title="Price"></i></label>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text">Rs.</span>
+                                            <input type="text" class="form-control" value="<?= $row['Price_AC'] ?>"
+                                                id="AcPrice" />
                                         </div>
                                     </div>
                                 </div>
@@ -115,7 +126,8 @@ function sendData() {
         data: {
             id: $('#id').val(),
             name: $('#name').val(),
-            price: $('#price').val()
+            nonacprice: $('#NonAcPrice').val(),
+            acprice: $('#AcPrice').val()
         },
         success: function(response, status, xhr) {
             if (xhr.status == 200) {

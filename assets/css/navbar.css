@@ -1,12 +1,12 @@
-:root{
-    --primary-color:#191970;
-    --secondary-color:#212121;
-}
+/* :root{ */
+    /* --primary-color:#191970; */
+    /* --secondary-color:#212121; */
+/* } */
 
-.dark-theme{
-    --primary-color:#212121;
-    --secondary-color:#edf2fc;
-}
+/* .dark-theme{ */
+    /* --primary-color:#212121; */
+    /* --secondary-color:#edf2fc; */
+/* } */
 
 body {
     font-family: Arial, sans-serif;
@@ -20,8 +20,8 @@ body {
     position: fixed;
     top: 0;
     width: 100%;
-    /* background-color: #191970; */
-    background-color: var(--primary-color);
+    background-color: #191970;
+    /* background-color: var(--primary-color); */
     z-index: 1000;
     display: flex;
     justify-content: space-between;
@@ -31,8 +31,8 @@ body {
 }
 
 .navbar.scrolled {
-    /* background-color: #191970; Slightly darker color on scroll */
-    background-color: var(--secondary-color);
+    background-color: #191970; 
+    /* background-color: var(--secondary-color); */
     box-shadow: 0 5px 10px rgba(252, 251, 251, 0.9);
     padding: 10px 20px; /* Shrinks padding on scroll */
 }
@@ -124,8 +124,8 @@ body {
     position: absolute;
     top: 100%;
     right: 0;
-    background-color: #333;
-    border-radius: 5px;
+    background-color: #191970;
+    border-radius: 5    px;
     box-shadow: 0 8px 16px rgba(0,0,0,0.2);
 }
 
@@ -146,7 +146,7 @@ body {
 }
 
 .dropdown a:hover {
-    background-color: #444;
+    background-color: #FFD700;
 }
 
 .profile:hover .dropdown {

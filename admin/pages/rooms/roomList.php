@@ -14,6 +14,7 @@ $query = "SELECT
     rooms.Id,
     rooms.RoomNumber,
     rooms.Description,
+    rooms.AcNonAc,
     rooms.Capacity,
     rooms.IsAvailable,
     roomTypes.Name as RoomTypeId
@@ -71,6 +72,7 @@ $index=1;
                                         <th class="text-center">sr.no</th>
                                         <th class="text-center">Room Type</th>
                                         <th class="text-center">Room.no</th>
+                                        <th class="text-center">AC-NonAc</th>
                                         <th class="text-center">Description</th>
                                         <th class="text-center">Capacity</th>
                                         <th class="text-center">Is Available</th>
@@ -82,6 +84,7 @@ $index=1;
                                         <td class="text-center"><?= $index++ ?></td>
                                         <td class="text-center"><?= $row['RoomTypeId'] ?></td>
                                         <td class="text-center"><?= $row['RoomNumber'] ?></td>
+                                        <td class="text-center"><?= $row['AcNonAc'] ?></td>
                                         <td class="text-center"><?= $row['Description'] ?></td>
                                         <td class="text-center"><?= $row['Capacity'] ?></td>
                                         <td class="text-center">
