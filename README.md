@@ -2,9 +2,6 @@
 
 StayComfort is a web-based hotel management system built with PHP, HTML, CSS, and JavaScript. The system provides both user and admin functionalities, enabling efficient room and hall booking management.
 
-## 🔗 Live Preview
-_(Add your deployment link here if hosted)_
-
 ---
 
 ## ✨ Features
